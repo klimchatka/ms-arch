@@ -3,13 +3,21 @@ kind: Ingress
 metadata:
     name: ingress-task1
     annotations:
+        nginx.ingress.kubernetes.io/rewrite-target: /$1
         kubernetes.io/ingress.class: "nginx"
 spec:
     rules:
     - host: arch.homework
       http:
           paths:
-            - path: /
+            - path: /(health)
+              pathType: Prefix
+              backend: 
+                service: 
+                    name: service-task1
+                    port: 
+                      number: 8000
+            - path: /otusapp/(.+)/(.*)
               pathType: Prefix
               backend: 
                 service: 
